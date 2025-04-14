@@ -1,8 +1,7 @@
----
 
 ### 📄 `README.md`
 
-```markdown
+
 # 🔗 URL Shortener – Python FastAPI Interview Task
 
 This is a simple, scalable URL shortening service built with **FastAPI**, **SQLModel**, and **Alembic**.
