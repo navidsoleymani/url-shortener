@@ -9,8 +9,8 @@ from app.db.admin import URLAdmin, URLVisitAdmin
 from app.db.session import engine
 from app.middleware.logging import add_logging_middleware
 
-from .conf.application_lifespan import lifespan
-from .conf.logging import configure_logging
+from app.conf.application_lifespan import lifespan
+from app.conf.logging import configure_logging
 
 # --- Logging Setup ---
 configure_logging()
