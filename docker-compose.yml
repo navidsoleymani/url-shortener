@@ -1,26 +1,28 @@
+version: "3.9"  # Use a recent Compose file format version
+
 services:
   db:
     image: postgres:17
     environment:
-      POSTGRES_USER: db2
-      POSTGRES_PASSWORD: db2
-      POSTGRES_DB: db2
+      POSTGRES_USER: db2            # Database user
+      POSTGRES_PASSWORD: db2        # Database password
+      POSTGRES_DB: db2              # Database name
     volumes:
-      - url-shortener_pgdata:/var/lib/postgresql/data
+      - url-shortener_pgdata:/var/lib/postgresql/data  # Persist DB data
     ports:
-      - "5432:5432"
+      - "5432:5432"                 # Expose PostgreSQL port
 
   web:
     build: .
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
     volumes:
-      - .:/app
+      - .:/app                     # Mount current dir for live code reload
     ports:
-      - "8000:8000"
+      - "8000:8000"                # Expose FastAPI port
     depends_on:
-      - db
+      - db                         # Ensure DB starts before web
     environment:
-      DATABASE_URL: postgresql+asyncpg://db2:db2@db:5432/db2
+      DATABASE_URL: postgresql+asyncpg://db2:db2@db:5432/db2  # DB connection string
 
 volumes:
-  url-shortener_pgdata:
+  url-shortener_pgdata:           # Named volume to persist DB data

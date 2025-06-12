@@ -2,13 +2,13 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main ]          # Run workflow on push to main branch
   pull_request:
-    branches: [ main ]
+    branches: [ main ]          # Run workflow on PR targeting main branch
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest     # Use latest Ubuntu runner
 
     services:
       postgres:
@@ -26,26 +26,26 @@ jobs:
           --health-retries 5
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3          # Checkout repository
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.12'
+          python-version: '3.12'            # Use Python 3.12
 
       - name: Install dependencies
         run: |
-          python -m venv venv
-          source venv/bin/activate
+          python -m venv venv                # Create virtual environment
+          source venv/bin/activate           # Activate venv
           pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r requirements.txt   # Install dependencies
 
       - name: Run migrations
         env:
-          PG_DSN: postgresql://postgres:password@localhost:5432/url_db
-        run: alembic upgrade head
+          PG_DSN: postgresql://postgres:password@localhost:5432/url_db  # DB connection string
+        run: alembic upgrade head            # Apply DB migrations
 
       - name: Run tests
         env:
           PG_DSN: postgresql://postgres:password@localhost:5432/url_db
-        run: pytest
+        run: pytest                         # Run tests
