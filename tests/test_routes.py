@@ -164,7 +164,7 @@ async def test_nonexistent_short_code(client):
 
     # Test stats with invalid code
     stats_response = await get_url_stats(client, "INVALID_CODE")
-    assert stats_response.status_code == 200
+    assert stats_response.status_code == 404
 
 
 @pytest.mark.asyncio
