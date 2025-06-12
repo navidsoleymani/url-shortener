@@ -18,8 +18,25 @@ configure_logging()
 # --- App Initialization ---
 app = FastAPI(
     title="URL Shortener",
-    description="A modern, async URL shortening service",
+    ddescription="""
+        A lightweight, fast, and extensible API to shorten URLs and track usage statistics.
+
+        ## Features
+
+        - 🔗 Shorten long URLs
+        - 📥 Redirect using short codes
+        - 📊 View number of visits per short code
+    """,
     version="1.0.0",
+    contact={
+        "name": "Hydra",
+        "url": "https://hydra.nvd",
+        "email": "navidsoleymani@ymail.com",
+    },
+    license_info={
+        "name": "MIT License",
+        "url": "https://opensource.org/licenses/MIT",
+    },
     docs_url="/docs",
     redoc_url="/redoc",
     openapi_url="/openapi.json",
