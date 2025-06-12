@@ -13,12 +13,13 @@ from app.conf.application_lifespan import lifespan
 from app.conf.logging import configure_logging
 
 # --- Logging Setup ---
+# Initialize logging before the application starts
 configure_logging()
 
 # --- App Initialization ---
 app = FastAPI(
     title="URL Shortener",
-    ddescription="""
+    description="""
         A lightweight, fast, and extensible API to shorten URLs and track usage statistics.
 
         ## Features
@@ -37,13 +38,14 @@ app = FastAPI(
         "name": "MIT License",
         "url": "https://opensource.org/licenses/MIT",
     },
-    docs_url="/docs",
-    redoc_url="/redoc",
-    openapi_url="/openapi.json",
-    lifespan=lifespan
+    docs_url="/docs",           # Swagger UI path
+    redoc_url="/redoc",         # ReDoc documentation path
+    openapi_url="/openapi.json",  # OpenAPI spec path
+    lifespan=lifespan           # Lifespan context for startup/shutdown hooks
 )
 
 # --- Middleware ---
+# Enable CORS for frontend integration or external access
 app.add_middleware(
     CORSMiddleware,
     allow_origins=os.getenv("CORS_ORIGINS", "*").split(","),
@@ -51,12 +53,16 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Add custom request logging middleware
 add_logging_middleware(app)
 
 # --- Routes ---
+# Include all API routes
 app.include_router(router)
 
 # --- Admin Interface ---
+# SQLAdmin interface for managing URL and visit models
 admin = Admin(
     app,
     engine,
