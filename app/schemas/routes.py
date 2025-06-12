@@ -7,7 +7,7 @@ class HealthCheckResponse(BaseModel):
     """
     status: str = Field(
         ...,
-        example="ok",
+        json_schema_extra={"example": "ok", },
         description="Receiving 'ok' indicates that everything is running correctly."
     )
 
@@ -18,7 +18,7 @@ class URLCreateRequestBody(BaseModel):
     """
     original_url: HttpUrl = Field(
         ...,
-        example="https://example.com/long/url/to/be/shortened",
+        json_schema_extra={"example": "https://example.com/long/url/to/be/shortened", },
         description="The original URL that needs to be shortened."
     )
 
@@ -31,7 +31,7 @@ class URLResponse(BaseModel):
         ...,
         min_length=4,
         max_length=32,
-        example="wefwrwrf",
+        json_schema_extra={"example": "wefwrwrf", },
         description="Generated short code (4–32 alphanumeric characters)."
     )
 
@@ -42,6 +42,6 @@ class URLStatsResponse(BaseModel):
     """
     visits: int = Field(
         ...,
-        example=42,
+        json_schema_extra={"example": 42, },
         description="Number of times this short URL has been visited."
     )

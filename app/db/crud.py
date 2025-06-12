@@ -39,15 +39,15 @@ async def create_short_url(original_url: HttpUrl, session: AsyncSession):
 # Retrieves the URL record by its short code
 async def get_url_by_code(code: str, session: AsyncSession):
     stmt = select(URL).where(URL.short_code == code)
-    result = await session.execute(stmt)
+    result = await session.exec(stmt)
     return result.first()  # Returns Row or None
 
 
 # Retrieves the URL record by its original full URL
 async def get_url(url: HttpUrl, session: AsyncSession):
     stmt = select(URL).where(URL.original_url == str(url))
-    result = await session.execute(stmt)
-    return result.scalars().first()  # Returns URL model or None
+    result = await session.exec(stmt)
+    return result.first()  # Returns URL model or None
 
 
 # Records a new visit for a short URL
@@ -64,5 +64,5 @@ async def count_visits(short_code: str, session: AsyncSession):
         .join(URLVisit.url)
         .where(URL.short_code == short_code)
     )
-    result = await session.execute(stmt)
-    return result.scalar_one()  # Returns total visit count as integer
+    result = await session.exec(stmt)
+    return result.first()  # Returns total visit count as integer

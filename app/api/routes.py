@@ -25,8 +25,8 @@ router = APIRouter(
     description="Check if the service is running and reachable.",
 )
 def ping(
-    request: Request,
-    session: AsyncSession = Depends(get_session),
+        request: Request,
+        session: AsyncSession = Depends(get_session),
 ):
     """
     Simple health check endpoint to verify the service is up.
@@ -47,8 +47,8 @@ def ping(
     },
 )
 async def shorten_url(
-    data: URLCreateRequestBody = Body(..., description="The original URL to shorten."),
-    session: AsyncSession = Depends(get_session),
+        data: URLCreateRequestBody = Body(..., description="The original URL to shorten."),
+        session: AsyncSession = Depends(get_session),
 ):
     """
     Accepts a long URL and generates a shortened version.
@@ -66,9 +66,9 @@ async def shorten_url(
     },
 )
 async def redirect(
-    short_code: str = Path(..., description="The short code to redirect to the original URL."),
-    request: Request = None,
-    session: AsyncSession = Depends(get_session),
+        short_code: str = Path(..., description="The short code to redirect to the original URL."),
+        request: Request = None,
+        session: AsyncSession = Depends(get_session),
 ):
     """
     Redirect to the original URL if the short code exists.
@@ -78,9 +78,8 @@ async def redirect(
     if not url:
         raise HTTPException(status_code=404, detail="URL not found")
 
-    record = url.tuple()[0]
-    await crud.create_visit(record.id, request.client.host, session)
-    return RedirectResponse(record.original_url)
+    await crud.create_visit(url.id, request.client.host, session)
+    return RedirectResponse(url.original_url)
 
 
 @router.get(
@@ -94,8 +93,8 @@ async def redirect(
     },
 )
 async def stats(
-    short_code: str = Path(..., description="The short code to get statistics for."),
-    session: AsyncSession = Depends(get_session),
+        short_code: str = Path(..., description="The short code to get statistics for."),
+        session: AsyncSession = Depends(get_session),
 ):
     """
     Retrieves the number of visits for the given short URL code.
