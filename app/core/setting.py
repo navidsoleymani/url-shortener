@@ -1,5 +1,3 @@
-"""Configuration definition."""
-
 from __future__ import annotations
 
 from enum import Enum
@@ -21,15 +19,23 @@ class EnvSettingsOptions(Enum):
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_file=".env", case_sensitive=False, extra="ignore"
+        env_file=".env",
+        case_sensitive=False,
+        extra="ignore",
     )
 
     # Project Configuration
     ENV_SETTING: EnvSettingsOptions = Field(
-        "production", examples=["production", "staging", "dev"]
+        default="dev",
+        examples=["production", "staging", "dev"],
     )
-    # Example "postgresql+psycopg://username:password@localhost:5432/db_name"
-    PG_DSN: str = Field()
+    PG_DSN: str = Field(
+        default="sqlite+aiosqlite:///./dev.db.sqlite3",
+        examples=["postgresql+asyncpg://postgres:password@db:5432/url_db"],
+    )
+    DB_ECHO: bool = Field(
+        default=False,
+    )
 
 
 settings = Settings()
