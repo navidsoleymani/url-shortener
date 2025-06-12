@@ -12,18 +12,22 @@ from .logging import configure_logging
 # --- Application Lifespan ---
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Startup
+    # Startup phase
     configure_logging()
     logger = logging.getLogger(__name__)
     logger.info("Initializing database...")
 
+    # Create all tables in the database if they don't exist
     async with engine.begin() as conn:
         await conn.run_sync(SQLModel.metadata.create_all)
 
     logger.info("Application startup complete")
     yield
 
-    # Shutdown
+    # Shutdown phase
     logger.info("Shutting down...")
+
+    # Properly dispose the database engine
     await engine.dispose()
+
     logger.info("Application shutdown complete")
