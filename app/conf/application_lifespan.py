@@ -1,18 +1,11 @@
 import logging
 import logging.config
-import os
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from sqladmin import Admin
 from sqlmodel import SQLModel
 
-from app.api.routes import router
-from app.db.admin import URLAdmin, URLVisitAdmin
 from app.db.session import engine
-from app.middleware.logging import add_logging_middleware
-
 from .logging import configure_logging
 
 
